@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun Signal - Solar Time Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>☀️ Sun Signal</h1>
+            <p class="tagline">Align your schedule with the sun</p>
+        </header>
+
+        <main>
+            <!-- Zip Code Input Section -->
+            <section class="location-input">
+                <h2>Your Location</h2>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="zipCode"
+                        placeholder="Enter ZIP code (e.g., 22310)"
+                        value="22310"
+                        maxlength="5"
+                    >
+                    <button id="updateLocation" class="btn-primary">Update</button>
+                </div>
+                <p class="current-location">
+                    Current: <span id="currentLocation">Alexandria, VA (22310)</span>
+                </p>
+            </section>
+
+            <!-- Date Selector -->
+            <section class="date-selector">
+                <h2>Select Date</h2>
+                <div class="date-controls">
+                    <button id="prevDay" class="btn-secondary">← Previous</button>
+                    <input type="date" id="selectedDate" value="">
+                    <button id="nextDay" class="btn-secondary">Next →</button>
+                </div>
+            </section>
+
+            <!-- Visual Sun Arc -->
+            <section class="sun-arc-container">
+                <h2>Solar Arc</h2>
+                <div class="sun-arc">
+                    <svg id="sunArcSvg" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Sky gradient background -->
+                        <defs>
+                            <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Background -->
+                        <rect width="800" height="300" fill="url(#skyGradient)" />
+
+                        <!-- Horizon line -->
+                        <line x1="0" y1="250" x2="800" y2="250" stroke="#64748b" stroke-width="2" />
+
+                        <!-- Sun path arc (will be drawn by JavaScript) -->
+                        <path id="sunPath" d="" stroke="#fbbf24" stroke-width="3" fill="none" />
+
+                        <!-- Sun position (will be updated by JavaScript) -->
+                        <circle id="sunPosition" cx="400" cy="150" r="20" fill="#fbbf24" />
+
+                        <!-- Time markers (will be added by JavaScript) -->
+                        <g id="timeMarkers"></g>
+                    </svg>
+                    <div class="arc-legend">
+                        <span class="legend-item"><span class="dot sunrise"></span> Sunrise</span>
+                        <span class="legend-item"><span class="dot noon"></span> Solar Noon</span>
+                        <span class="legend-item"><span class="dot sunset"></span> Sunset</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Solar Times Table -->
+            <section class="solar-times">
+                <h2>Today's Solar Times</h2>
+                <div class="times-grid" id="timesGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Two Week Calendar View -->
+            <section class="calendar-view">
+                <h2>Next 14 Days</h2>
+                <div class="table-container">
+                    <table id="solarCalendar">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th class="tooltip-header">
+                                    Dawn
+                                    <span class="tooltip">Astronomical dawn - first light (sun 18° below horizon)</span>
+                                </th>
+                                <th class="tooltip-header">
+                                    Sunrise
+                                    <span class="tooltip">Primary circadian reset - be outside!</span>
+                                </th>
+                                <th class="tooltip-header">
+                                    Solar Noon
+                                    <span class="tooltip">Sun at highest point - peak alertness</span>
+                                </th>
+                                <th class="tooltip-header">
+                                    Sunset
+                                    <span class="tooltip">Begin dimming environment</span>
+                                </th>
+                                <th class="tooltip-header">
+                                    Dusk
+                                    <span class="tooltip">Complete darkness (sun 18° below horizon)</span>
+                                </th>
+                                <th>Day Length</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendarBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Personal Schedule Builder -->
+            <section class="schedule-builder">
+                <h2>Your Daily Schedule</h2>
+                <p class="section-description">
+                    Plan your activities in harmony with solar phases
+                </p>
+
+                <div class="schedule-form">
+                    <h3>Add Activity</h3>
+                    <div class="form-group">
+                        <label for="activityName">Activity:</label>
+                        <input type="text" id="activityName" placeholder="e.g., Morning workout">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activityTiming">Timing:</label>
+                        <select id="activityTiming">
+                            <option value="custom">Custom time</option>
+                            <option value="sunrise-before">Before sunrise</option>
+                            <option value="sunrise-after">After sunrise</option>
+                            <option value="morning">Morning (sunrise to noon)</option>
+                            <option value="noon-before">Before solar noon</option>
+                            <option value="noon-after">After solar noon</option>
+                            <option value="afternoon">Afternoon (noon to sunset)</option>
+                            <option value="sunset-before">Before sunset</option>
+                            <option value="sunset-after">After sunset</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="customTimeGroup" style="display: none;">
+                        <label for="activityTime">Time:</label>
+                        <input type="time" id="activityTime">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activityDuration">Duration (minutes):</label>
+                        <input type="number" id="activityDuration" min="5" max="480" value="60">
+                    </div>
+
+                    <button id="addActivity" class="btn-primary">Add Activity</button>
+                </div>
+
+                <div class="schedule-list" id="scheduleList">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section class="recommendations">
+                <h2>Solar Phase Recommendations</h2>
+                <div class="recommendations-grid" id="recommendationsGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Visual Representations Showcase -->
+            <section class="visualizations">
+                <h2>Visual Representation Ideas</h2>
+                <div class="viz-options">
+                    <div class="viz-card">
+                        <h3>1. Linear Timeline</h3>
+                        <p>Horizontal timeline from dawn to dusk with activity markers</p>
+                        <div class="viz-preview timeline-preview"></div>
+                    </div>
+
+                    <div class="viz-card">
+                        <h3>2. Circular Clock</h3>
+                        <p>24-hour clock with solar phases highlighted</p>
+                        <div class="viz-preview circular-preview"></div>
+                    </div>
+
+                    <div class="viz-card">
+                        <h3>3. Light Gradient</h3>
+                        <p>Background color changing throughout the day</p>
+                        <div class="viz-preview gradient-preview"></div>
+                    </div>
+
+                    <div class="viz-card">
+                        <h3>4. Energy Curve</h3>
+                        <p>Graph showing predicted energy levels</p>
+                        <div class="viz-preview energy-preview"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Sun Signal - Built to sync with the sun ☀️</p>
+            <p class="note">
+                Note: This is a prototype with sample data for Alexandria, VA.
+                Full zip code integration and live solar calculations coming soon.
+            </p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

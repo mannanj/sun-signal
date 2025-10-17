@@ -1,0 +1,614 @@
+/* Sun Signal Styles */
+
+:root {
+    /* Solar-inspired color palette */
+    --dawn: #fef3c7;
+    --sunrise: #fbbf24;
+    --daylight: #3b82f6;
+    --sunset: #fb923c;
+    --dusk: #4c1d95;
+    --night: #1e1b4b;
+
+    /* UI colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --shadow: rgba(0, 0, 0, 0.1);
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    /* Border radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--sunrise) 0%, var(--daylight) 100%);
+    border-radius: var(--radius-lg);
+    color: white;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.tagline {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+/* Sections */
+section {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+section h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--sunrise);
+    padding-bottom: var(--spacing-xs);
+}
+
+.section-description {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Location Input */
+.input-group {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.input-group input {
+    flex: 1;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--daylight);
+}
+
+.current-location {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.current-location span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--sunrise) 0%, var(--sunset) 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--border);
+}
+
+/* Date Selector */
+.date-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.date-controls input[type="date"] {
+    flex: 1;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+}
+
+/* Sun Arc Visualization */
+.sun-arc {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+}
+
+.sun-arc svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.arc-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--bg-primary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.9rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.sunrise {
+    background: var(--sunrise);
+}
+
+.dot.noon {
+    background: var(--daylight);
+}
+
+.dot.sunset {
+    background: var(--sunset);
+}
+
+/* Solar Times Grid */
+.times-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.time-card {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--sunrise);
+    transition: transform 0.2s;
+}
+
+.time-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.time-card h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.time-card .time {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.time-card .description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+}
+
+.tooltip-header {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--night);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: normal;
+    white-space: nowrap;
+    z-index: 10;
+    transition: opacity 0.2s;
+    margin-bottom: var(--spacing-xs);
+}
+
+.tooltip-header:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+tbody tr:hover {
+    background: var(--bg-secondary);
+}
+
+td.today {
+    background: var(--dawn);
+    font-weight: 600;
+}
+
+/* Schedule Builder */
+.schedule-form {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.schedule-form h3 {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--daylight);
+}
+
+/* Schedule List */
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.schedule-item {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--daylight);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.schedule-item-content h4 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.schedule-item-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.schedule-item-actions button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: var(--spacing-xs);
+}
+
+.schedule-item-actions button:hover {
+    color: var(--sunset);
+}
+
+/* Recommendations Grid */
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.recommendation-card {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-top: 4px solid var(--sunrise);
+}
+
+.recommendation-card h3 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.recommendation-card .energy-level {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.recommendation-card ul {
+    list-style: none;
+    margin-bottom: var(--spacing-sm);
+}
+
+.recommendation-card ul li {
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.recommendation-card ul li:last-child {
+    border-bottom: none;
+}
+
+.recommendation-card ul li::before {
+    content: "✓ ";
+    color: var(--daylight);
+    font-weight: bold;
+}
+
+.recommendation-card .avoid-list li::before {
+    content: "✗ ";
+    color: var(--sunset);
+}
+
+/* Visualizations */
+.viz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.viz-card {
+    background: var(--bg-secondary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.viz-card h3 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.viz-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.viz-preview {
+    height: 120px;
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.timeline-preview {
+    background: linear-gradient(90deg,
+        var(--night) 0%,
+        var(--dawn) 20%,
+        var(--sunrise) 25%,
+        var(--daylight) 50%,
+        var(--sunset) 75%,
+        var(--dusk) 80%,
+        var(--night) 100%
+    );
+}
+
+.circular-preview {
+    background: conic-gradient(
+        var(--night) 0deg,
+        var(--dawn) 60deg,
+        var(--sunrise) 90deg,
+        var(--daylight) 180deg,
+        var(--sunset) 270deg,
+        var(--dusk) 300deg,
+        var(--night) 360deg
+    );
+    border-radius: 50%;
+}
+
+.gradient-preview {
+    background: linear-gradient(180deg,
+        var(--night) 0%,
+        var(--dawn) 25%,
+        var(--daylight) 50%,
+        var(--sunset) 75%,
+        var(--night) 100%
+    );
+}
+
+.energy-preview {
+    background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.energy-preview::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: var(--daylight);
+    clip-path: polygon(
+        0% 100%,
+        10% 80%,
+        25% 40%,
+        50% 0%,
+        75% 40%,
+        90% 80%,
+        100% 100%
+    );
+    opacity: 0.6;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+footer p {
+    margin-bottom: var(--spacing-xs);
+}
+
+.note {
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-sm);
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .times-grid,
+    .recommendations-grid,
+    .viz-options {
+        grid-template-columns: 1fr;
+    }
+
+    .date-controls {
+        flex-direction: column;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Accessibility */
+:focus {
+    outline: 2px solid var(--daylight);
+    outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+select:focus {
+    outline: 2px solid var(--daylight);
+    outline-offset: 2px;
+}
