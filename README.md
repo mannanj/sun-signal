@@ -84,6 +84,29 @@ sun-signal/
 
 Simply open `index.html` in a modern web browser to run the application locally.
 
+Or use a local server:
+```bash
+python3 -m http.server 8000
+# Then visit http://localhost:8000
+```
+
+## Documentation
+
+### [Living by Natural Light - Comprehensive Guide](./LIVING_BY_NATURAL_LIGHT.md)
+
+An in-depth exploration of solar rhythms, color biology, and practical frameworks for aligning with natural light cycles. This guide covers:
+
+- **The Eight Phases of Solar Light**: From night to morning blue hour, golden hours, and back to darkness
+- **Color Effects on Biology**: How blue, red/orange/gold, and full spectrum light affect your body and mind
+- **The Morning Paradox**: Understanding the three-stage natural wake-up system
+- **What Animals Do**: Nature's blueprint for daily rhythms across light phases
+- **One-Year Natural Light Experiment**: A practical framework for modern humans
+- **Structuring Activities by Light Quality**: When to do planning, creative work, socializing, exercise, and more
+- **Seasonal Adjustments**: How your schedule naturally flexes with summer and winter
+- **Expected Outcomes**: Physical, psychological, spiritual, and social changes from living by natural light
+
+This comprehensive guide provides the scientific and philosophical foundation for the Sun Signal application.
+
 ## Future Enhancements
 
 - Weather integration for cloud cover warnings
