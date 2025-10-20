@@ -93,7 +93,7 @@ Apply classes directly in templates. Use arbitrary values: `text-[#039be5]`, `w-
 
 ### Task Workflow
 
-**1. Create task in `docs/planning/tasks.md`:**
+**1. Create task in `tasks.md`:**
 ```markdown
 ### Task N: Task Title
 - [ ] Subtask 1
